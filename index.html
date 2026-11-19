@@ -958,9 +958,9 @@
 
     @keyframes intro-logo-appear {
       0% { opacity: 0; transform: translateY(0) scale(.94); }
-      24%, 45% { opacity: 1; transform: translateY(0) scale(1); }
+      24%, 46.67% { opacity: 1; transform: translateY(0) scale(1); }
       /* Contact occurs at about 0.84 seconds. */
-      48% { opacity: 1; transform: translateY(6px) scale(1.025, .965); animation-timing-function: ease-out; }
+      51% { opacity: 1; transform: translateY(6px) scale(1.025, .965); animation-timing-function: ease-out; }
       57% { opacity: 1; transform: translateY(-2px) scale(.995, 1.012); }
       66%, 100% { opacity: 1; transform: translateY(0) scale(1); }
     }
@@ -977,7 +977,7 @@
     /* Vertical motion slows at the peak, then accelerates downward. */
     @keyframes intro-ball-vertical {
       0% { transform: translateY(-180px); animation-timing-function: cubic-bezier(.55, .05, .9, .65); }
-      35% { transform: translateY(0); animation-timing-function: cubic-bezier(.2, .65, .4, 1); }
+      35% { transform: translateY(4px); animation-timing-function: cubic-bezier(.2, .65, .4, 1); }
       58% { transform: translateY(-95px); animation-timing-function: cubic-bezier(.6, 0, .8, .35); }
       100% { transform: translateY(85px); }
     }
