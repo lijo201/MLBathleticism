@@ -638,6 +638,36 @@
       #scenario-controls { transition: none; }
     }
 
+  
+    /* Dashboard heading and number typography */
+    .overview h2 {
+      display: inline-block;
+      background: linear-gradient(90deg, #092b5a 0%, #536b9b 48%, #e48a8c 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.025em;
+    }
+
+    .overview-comparison {
+      margin: 7px 0 0;
+      color: #1d1d1f;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .metric-value,
+    .row strong,
+    .comparison td:not(:first-child) {
+      font-family: Helvetica, Arial, sans-serif;
+      font-variant-numeric: tabular-nums lining-nums;
+      letter-spacing: 0;
+    }
+
+    .metric-value { font-weight: 600; }
+    .row strong { font-weight: 600; }
+
   </style>
 </head>
 
@@ -770,11 +800,9 @@
 
     <div class="overview">
       <div>
-        <div class="eyebrow">
-          Compared with actual positioning
-        </div>
-
         <h2>What changes on the field.</h2>
+
+        <p class="overview-comparison">Compared with actual positioning</p>
 
         <p class="subtle" id="current-label"></p>
       </div>
