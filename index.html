@@ -12,7 +12,7 @@
   ========================================== -->
   <style>
     :root {
-      font-family: Arial, sans-serif;
+      font-family: Helvetica, Arial, sans-serif;
       color: #1d1d1f;
       background: #f5f5f7;
       font-synthesis: none;
@@ -470,7 +470,7 @@
 
     .brand {
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: Helvetica, Arial, sans-serif;
     }
 
     .mlb-logo {
@@ -529,6 +529,27 @@
     }
 
   
+    /* Sticky, translucent navigation and positioning controls */
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(38, 38, 42, 0.78);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    #scenario-controls {
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      scroll-margin-top: 80px;
+    }
+
     /* Full-screen opening image */
     html { scroll-behavior: smooth; }
     .wrap { padding-top: 0; }
@@ -562,7 +583,7 @@
     .scroll-cue { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 25px; color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: .14em; }
     .scroll-cue svg { animation: scroll-bounce 1.8s ease-in-out infinite; }
     .scroll-cue:focus-visible { outline: 2px solid white; outline-offset: 6px; border-radius: 4px; }
-    #scenario-controls { scroll-margin-top: 24px; }
+    #scenario-controls { scroll-margin-top: 80px; }
     @keyframes scroll-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
     @media (max-width: 850px) { .wrap { padding-top: 0; } .hero { align-items: center; padding-bottom: 32px; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .scroll-cue svg { animation: none; } }
