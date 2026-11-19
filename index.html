@@ -963,6 +963,30 @@
       .intro-screen .intro-logo, .intro-ball { animation: none; }
     }
 
+  
+    /* More space and larger labels in the sticky controls */
+    #scenario-controls.is-stuck {
+      padding-top: 27px;
+      padding-bottom: 27px;
+    }
+
+    #scenario-controls.is-stuck .label {
+      font-size: 14px;
+      margin-bottom: 11px;
+    }
+
+    @media (max-width: 850px) {
+      #scenario-controls.is-stuck {
+        padding-top: 18px;
+        padding-bottom: 18px;
+      }
+
+      #scenario-controls.is-stuck .label {
+        font-size: 13px;
+        margin-bottom: 7px;
+      }
+    }
+
   </style>
 </head>
 
