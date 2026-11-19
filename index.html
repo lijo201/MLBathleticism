@@ -1106,6 +1106,20 @@
       -webkit-text-fill-color: currentColor;
     }
 
+    /* Subtle, one-time reveal for dashboard cards */
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 650ms ease, transform 650ms cubic-bezier(.22, 1, .36, 1);
+      }
+      .scroll-reveal.is-visible,
+      .scroll-reveal:focus-within {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
   </style>
 </head>
 
@@ -1791,6 +1805,27 @@
     } else {
       introLogo.addEventListener("load", onIntroLogoReady, { once: true });
       introLogo.addEventListener("error", onIntroLogoReady, { once: true });
+    }
+
+    // Reveal cards once as they enter the viewport.
+    if ("IntersectionObserver" in window &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: "0px 0px -5% 0px" });
+
+      document.querySelectorAll(".field-card, .metrics > .card, .detail > .card, .comparison, .interpret-panel")
+        .forEach((card) => {
+          if (card.getBoundingClientRect().top >= window.innerHeight) {
+            card.classList.add("scroll-reveal");
+            revealObserver.observe(card);
+          }
+        });
     }
 
     render();
