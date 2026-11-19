@@ -1170,6 +1170,17 @@
     }
     .comparison tr.active td:first-child { color: #ffc3cf; }
 
+    /* Softer selected row and a cleaner comparison table */
+    .comparison tbody td { border-bottom: 0; }
+    .comparison tr.active td { background: #a94758; }
+    .comparison tr.active td:first-child {
+      color: #fff;
+      border-radius: 999px 0 0 999px;
+    }
+    .comparison tr.active td:last-child {
+      border-radius: 0 999px 999px 0;
+    }
+
   </style>
 </head>
 
