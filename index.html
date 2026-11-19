@@ -829,6 +829,17 @@
       .interpret-content, .interpret-icon { transition: none; }
     }
 
+  
+    /* Scenario section heading */
+    .scenario-title {
+      margin: 0 0 24px;
+      font-size: clamp(32px, 3.5vw, 44px);
+      line-height: 1.12;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1d1d1f;
+    }
+
   </style>
 </head>
 
@@ -883,6 +894,8 @@
     </section>
 
     <!-- Dashboard controls -->
+
+    <h2 class="scenario-title">Compare Scenarios</h2>
 
     <div id="controls-sentinel" aria-hidden="true"></div>
     <section class="card controls" id="scenario-controls" aria-label="Dashboard controls">
