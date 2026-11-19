@@ -588,6 +588,28 @@
     @media (max-width: 850px) { .wrap { padding-top: 0; } .hero { align-items: center; padding-bottom: 32px; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .scroll-cue svg { animation: none; } }
 
+  
+    /* Outfield positioning illustration */
+    .field-card { margin-top: 18px; overflow: hidden; }
+    .field-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+    .field-heading h2 { margin: 8px 0; font-size: clamp(24px, 2.6vw, 32px); }
+    .field-kicker { color: #7160bd; font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+    .field-description { color: #6e6e73; margin: 0; font-size: 15px; }
+    .field-scenario { background: #f3f1fb; color: #5f4eb1; border-radius: 99px; padding: 9px 14px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+    .field-visual { max-width: 800px; margin: 20px auto 0; }
+    .field-visual svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .field-visual text { font-family: Helvetica, Arial, sans-serif; }
+    .base-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; fill: #799183; }
+    .fielder-label { font-size: 15px; font-weight: 700; fill: #365647; }
+    .field-zone { fill: #598d70; fill-opacity: .13; stroke: #438663; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+    .field-center { fill: #29754e; stroke: #fff; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+    .field-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; color: #535f59; font-size: 13px; }
+    .field-legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: #29754e; }
+    .legend-ring { width: 14px; height: 14px; border: 1.5px solid #438663; border-radius: 50%; background: rgba(89,141,112,.13); }
+    .field-note { max-width: 720px; margin: 17px auto 0; text-align: center; color: #777780; font-size: 13px; line-height: 1.5; }
+    @media (max-width: 600px) { .field-heading { flex-direction: column; } .field-visual { margin-top: 8px; } .field-legend { gap: 15px; } }
+
   </style>
 </head>
 
@@ -680,6 +702,39 @@
         <p class="helper" id="assumption-help"></p>
       </div>
 
+    </section>
+
+    <!-- Positioning diagram: circles are drawn to the same scale as the bases -->
+    <section class="card field-card" aria-labelledby="field-title">
+      <div class="field-heading">
+        <div>
+          <div class="field-kicker">THE FIELD</div>
+          <h2 id="field-title">A closer look at positioning.</h2>
+          <p class="field-description">See how the selected rule places the three allowed outfield zones.</p>
+        </div>
+        <div class="field-scenario" id="field-scenario"></div>
+      </div>
+
+      <div class="field-visual">
+        <svg id="field-diagram" viewBox="0 0 720 510" role="img" aria-labelledby="field-svg-title field-svg-desc">
+          <title id="field-svg-title">Outfield positioning circles</title>
+          <desc id="field-svg-desc">The selected scenario places the three permitted outfield circles at equal distances from second base. The dots show the centers of the permitted circles.</desc>
+          <path d="M 360 485 L 35 160 A 460 460 0 0 1 685 160 Z" fill="#f1f7f3" />
+          <path d="M 35 160 L 360 485 L 685 160" fill="none" stroke="#b8cdbd" stroke-width="2" />
+          <path d="M 360 485 L 433.19 411.81 L 360 338.63 L 286.81 411.81 Z" fill="#fff" stroke="#a9bdb0" stroke-width="2"/>
+          <path d="M 360 480 L 365 485 L 360 490 L 355 485 Z" fill="#90a99a"/>
+          <rect x="356" y="334.63" width="8" height="8" rx="1" fill="#6f8c79" transform="rotate(45 360 338.63)"/>
+          <rect x="429.19" y="407.81" width="8" height="8" rx="1" fill="#8aa393" transform="rotate(45 433.19 411.81)"/>
+          <rect x="282.81" y="407.81" width="8" height="8" rx="1" fill="#8aa393" transform="rotate(45 286.81 411.81)"/>
+          <text x="360" y="322" text-anchor="middle" class="base-label">SECOND BASE</text>
+          <g id="outfield-positions"></g>
+        </svg>
+      </div>
+      <div class="field-legend">
+        <span><i class="legend-dot"></i> Circle center</span>
+        <span><i class="legend-ring"></i> Permitted starting area</span>
+      </div>
+      <p class="field-note">Distances and angles are measured from second base. Circle radii: 5 ft in left and right field; 12 ft in center. Dots mark circle centers, not actual player positions. Field outline is schematic.</p>
     </section>
 
     <!-- Overview heading -->
@@ -994,9 +1049,41 @@
     // 3. UPDATE THE DASHBOARD
     // -----------------------------------------
 
+    // Draw regulation 90-foot base paths and scenario circles on a shared scale.
+    // Scenario distance is measured from second base; corner angle is off center.
+    function renderField(scenario) {
+      const [distance, angle] = scenario.split("/").map(Number);
+      const scale = 1.15;
+      const homeX = 360;
+      const homeY = 485;
+      const secondBaseY = 90 * Math.SQRT2;
+      const theta = angle * Math.PI / 180;
+      const positions = [
+        { name: "LF", x: -distance * Math.sin(theta), y: secondBaseY + distance * Math.cos(theta), radius: 5 },
+        { name: "CF", x: 0, y: secondBaseY + distance, radius: 12 },
+        { name: "RF", x: distance * Math.sin(theta), y: secondBaseY + distance * Math.cos(theta), radius: 5 }
+      ];
+
+      $("#field-scenario").textContent = label(scenario);
+      $("#field-svg-desc").textContent =
+        label(scenario) + ": dots show the centers of allowed outfielder zones. " +
+        "Corner circles have a 5-foot radius and the center-field circle has a 12-foot radius. " +
+        "Distances and angles are measured from second base; the field outline is schematic.";
+      $("#outfield-positions").innerHTML = positions.map((position) => {
+        const x = homeX + position.x * scale;
+        const y = homeY - position.y * scale;
+        return `
+          <circle class="field-zone" cx="${x}" cy="${y}" r="${position.radius * scale}"></circle>
+          <circle class="field-center" cx="${x}" cy="${y}" r="3.2"></circle>
+          <text class="fielder-label" x="${x}" y="${y - position.radius * scale - 10}" text-anchor="middle">${position.name}</text>
+        `;
+      }).join("");
+    }
+
     function render() {
       const selected = data.find((item) => item.id === current);
       const values = selected[mode];
+      renderField(current);
 
       // Create the scenario buttons
       $("#scenarios").innerHTML = data
