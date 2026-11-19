@@ -840,11 +840,11 @@
     <section class="card field-card" aria-labelledby="field-title">
       <div class="field-heading">
         <div>
-          <div class="field-kicker">THE FIELD</div>
-          <h2 id="field-title">A closer look at positioning.</h2>
+          
+          <h2 id="field-title">Outfielder Positioning</h2>
           <p class="field-description">See how the selected rule places the three allowed outfield zones.</p>
         </div>
-        <div class="field-scenario" id="field-scenario"></div>
+        
       </div>
 
       <div class="field-visual">
@@ -1194,7 +1194,7 @@
         { name: "RF", x: distance * Math.sin(theta), y: secondBaseY + distance * Math.cos(theta), radius: 5 }
       ];
 
-      $("#field-scenario").textContent = label(scenario);
+      
       $("#field-svg-desc").textContent =
         label(scenario) + ": dots show the centers of allowed outfielder zones. " +
         "Corner circles have a 5-foot radius and the center-field circle has a 12-foot radius. " +
