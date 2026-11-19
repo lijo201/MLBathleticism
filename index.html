@@ -1131,6 +1131,27 @@
       background-image: linear-gradient(to bottom, #527d8c 0%, #263f4a 100%);
     }
 
+    /* A gentle perspective gives the field depth while preserving its geometry. */
+    .field-visual {
+      perspective: 1400px;
+      perspective-origin: 50% 50%;
+    }
+    #field-diagram {
+      transform-origin: center center;
+      transform: rotateX(12deg);
+      animation: field-drift 9s ease-in-out infinite alternate;
+    }
+    @keyframes field-drift {
+      from { transform: rotateX(12deg) rotateY(-3deg); }
+      to { transform: rotateX(12deg) rotateY(3deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #field-diagram {
+        animation: none;
+        transform: rotateX(12deg);
+      }
+    }
+
   </style>
 </head>
 
