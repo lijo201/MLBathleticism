@@ -610,6 +610,34 @@
     .field-note { max-width: 720px; margin: 17px auto 0; text-align: center; color: #777780; font-size: 13px; line-height: 1.5; }
     @media (max-width: 600px) { .field-heading { flex-direction: column; } .field-visual { margin-top: 8px; } .field-legend { gap: 15px; } }
 
+  
+    /* Darken the controls when they are pinned beneath the navigation. */
+    #controls-sentinel { height: 1px; }
+    #scenario-controls {
+      transition: background-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
+    }
+    #scenario-controls.is-stuck {
+      background: rgba(46, 46, 51, 0.84);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+    #scenario-controls.is-stuck .label { color: rgba(255, 255, 255, 0.82); }
+    #scenario-controls.is-stuck .helper { color: rgba(255, 255, 255, 0.78); }
+    #scenario-controls.is-stuck .opt {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.28);
+      color: #fff;
+    }
+    #scenario-controls.is-stuck .opt[aria-pressed="true"] {
+      background: #fff;
+      border-color: #fff;
+      color: #1d1d1f;
+    }
+    #scenario-controls.is-stuck .opt:hover { border-color: #fff; }
+    @media (prefers-reduced-motion: reduce) {
+      #scenario-controls { transition: none; }
+    }
+
   </style>
 </head>
 
@@ -665,6 +693,7 @@
 
     <!-- Dashboard controls -->
 
+    <div id="controls-sentinel" aria-hidden="true"></div>
     <section class="card controls" id="scenario-controls" aria-label="Dashboard controls">
 
       <div>
@@ -1209,6 +1238,30 @@
         render();
       }
     });
+
+    // Apply the dark appearance only while the controls are pinned.
+    const controlsSentinel = document.getElementById("controls-sentinel");
+    const scenarioControls = document.getElementById("scenario-controls");
+    let stickyUpdateScheduled = false;
+
+    function updateStickyControls() {
+      const navigation = document.querySelector(".top");
+      const navigationBottom = navigation.getBoundingClientRect().bottom;
+      const sentinelBottom = controlsSentinel.getBoundingClientRect().bottom;
+      scenarioControls.classList.toggle("is-stuck", sentinelBottom <= navigationBottom);
+      stickyUpdateScheduled = false;
+    }
+
+    function scheduleStickyUpdate() {
+      if (!stickyUpdateScheduled) {
+        stickyUpdateScheduled = true;
+        window.requestAnimationFrame(updateStickyControls);
+      }
+    }
+
+    window.addEventListener("scroll", scheduleStickyUpdate, { passive: true });
+    window.addEventListener("resize", scheduleStickyUpdate);
+    updateStickyControls();
 
     // Display the dashboard when the page first loads
     // Fade the intro screen away shortly after the dashboard is ready.
