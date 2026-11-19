@@ -769,6 +769,66 @@
       .field-divider { margin: 30px 0; }
     }
 
+  
+    /* Expandable result interpretation */
+    .interpret-panel {
+      margin: 24px 0 36px;
+      background: #edecf3;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .interpret-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #36343e;
+      padding: 23px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .interpret-toggle:hover { background: rgba(0, 0, 0, 0.025); }
+    .interpret-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 400;
+      transition: transform 300ms ease;
+      flex-shrink: 0;
+    }
+    .interpret-toggle[aria-expanded="true"] .interpret-icon {
+      transform: rotate(45deg);
+    }
+    .interpret-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 320ms ease, opacity 250ms ease;
+    }
+    .interpret-panel.is-open .interpret-content {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .interpret-inner { min-height: 0; overflow: hidden; }
+    .interpret-inner p {
+      margin: 0;
+      padding: 0 26px 24px;
+      color: #5f5f6a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .interpret-content, .interpret-icon { transition: none; }
+    }
+
   </style>
 </head>
 
@@ -1032,32 +1092,25 @@
       </div>
     </section>
 
-    <!-- Methodology note -->
-
-    <aside class="note">
-      <strong>How to interpret these results.</strong>
-
-      The closest legal spot uses the ball’s observed landing location,
-      which is unknown before the pitch; it is an optimistic benchmark.
-
-      Circle center is one specified pre-pitch position. They are modeling
-      assumptions, not guaranteed bounds on team behavior.
-
-      The pitch and swing remain unchanged. Home-run and strikeout changes
-      are held at zero in these scenarios. Distance is a movement measure,
-      not a direct measure of athletic ability.
-    </aside>
-
-    <!-- Footer -->
-
-    <footer>
-      Source: scorecard_results.ipynb and Outfield Results for MLB.
-      Data through September 27, 2026; 2026 is partial.
-
-      The analysis uses historical batted balls and reports modeled effects,
-      not observed rule outcomes. Infield restrictions and roster changes
-      are not modeled.
-    </footer>
+    <!-- Expandable interpretation note -->
+    <section class="interpret-panel">
+      <button class="interpret-toggle" id="interpret-toggle" type="button"
+        aria-expanded="false" aria-controls="interpret-content">
+        <span>How to interpret results</span>
+        <span class="interpret-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="interpret-content" id="interpret-content" aria-hidden="true">
+        <div class="interpret-inner">
+          <p>The closest legal spot uses the ball’s observed landing location,
+          which is unknown before the pitch; it is an optimistic benchmark.
+          Circle center is one specified pre-pitch position. They are modeling
+          assumptions, not guaranteed bounds on team behavior. The pitch and
+          swing remain unchanged. Home-run and strikeout changes are held at
+          zero in these scenarios. Distance is a movement measure, not a direct
+          measure of athletic ability.</p>
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -1388,6 +1441,18 @@
     window.addEventListener("scroll", scheduleStickyUpdate, { passive: true });
     window.addEventListener("resize", scheduleStickyUpdate);
     updateStickyControls();
+
+
+    // Expand and collapse the interpretation note.
+    const interpretToggle = document.getElementById("interpret-toggle");
+    const interpretContent = document.getElementById("interpret-content");
+
+    interpretToggle.addEventListener("click", () => {
+      const isOpen = interpretToggle.getAttribute("aria-expanded") === "true";
+      interpretToggle.setAttribute("aria-expanded", String(!isOpen));
+      interpretContent.setAttribute("aria-hidden", String(isOpen));
+      interpretToggle.closest(".interpret-panel").classList.toggle("is-open", !isOpen);
+    });
 
     // Display the dashboard when the page first loads
     // Fade the intro screen away shortly after the dashboard is ready.
