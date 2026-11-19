@@ -654,7 +654,7 @@
       margin: 7px 0 0;
       color: #1d1d1f;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 700;
     }
 
     .metric-value,
@@ -867,7 +867,7 @@
 
         <p class="overview-comparison">Compared with actual positioning</p>
 
-        <p class="subtle" id="current-label"></p>
+        
       </div>
     </div>
 
@@ -1238,11 +1238,6 @@
       }
 
       // Show the selected scenario and assumption
-      const modeLabel =
-        mode === "best" ? "Closest legal spot" : "Circle center";
-
-      $("#current-label").textContent =
-        label(current) + " · " + modeLabel;
 
       // Update the three main metrics
       $("#catch").innerHTML =
