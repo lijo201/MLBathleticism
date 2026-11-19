@@ -461,10 +461,49 @@
         padding: 15px 10px;
       }
     }
+  
+    /* Intro screen */
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 650ms ease, visibility 0s linear 650ms;
+    }
+
+    .intro-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-screen img {
+      width: min(190px, 40vw);
+      height: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .intro-screen { display: none; }
+    }
+
   </style>
 </head>
 
 <body>
+  <!-- Intro: fades away after the page loads -->
+  <div class="intro-screen" id="intro-screen" aria-hidden="true">
+    <img
+      src="https://commons.wikimedia.org/wiki/Special:FilePath/Major_League_Baseball_logo.svg"
+      alt=""
+      fetchpriority="high"
+    />
+  </div>
+  <noscript><style>.intro-screen { display: none; }</style></noscript>
+
   <!-- =========================================
        HTML SECTION
        Navigation and dashboard content
@@ -993,6 +1032,12 @@
     });
 
     // Display the dashboard when the page first loads
+    // Fade the intro screen away shortly after the dashboard is ready.
+    const introScreen = document.getElementById("intro-screen");
+    window.setTimeout(() => {
+      introScreen.classList.add("is-hidden");
+    }, 1400);
+
     render();
   </script>
 </body>
