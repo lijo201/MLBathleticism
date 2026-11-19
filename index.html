@@ -749,20 +749,6 @@
       font-weight: 700;
     }
 
-    #scenario-controls {
-      top: calc(64px - var(--controls-hidden-distance, 0px));
-      transition: top 320ms ease, width 320ms ease, margin-left 320ms ease,
-        border-radius 320ms ease, padding 320ms ease,
-        background-color 320ms ease, box-shadow 320ms ease;
-    }
-
-    #scenario-controls.is-stuck {
-      top: 64px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #scenario-controls { transition: none; }
-    }
 
   </style>
 </head>
@@ -1363,24 +1349,11 @@
     const scenarioControls = document.getElementById("scenario-controls");
     let stickyUpdateScheduled = false;
 
-    let normalControlsHeight = 0;
-
     function updateStickyControls() {
       const navigation = document.querySelector(".top");
       const navigationBottom = navigation.getBoundingClientRect().bottom;
       const sentinelBottom = controlsSentinel.getBoundingClientRect().bottom;
-
-      // Keep the original card height while its compact sticky form is shown.
-      if (!scenarioControls.classList.contains("is-stuck")) {
-        normalControlsHeight = scenarioControls.offsetHeight;
-      }
-
-      const hiddenDistance = normalControlsHeight * 0.8;
-      scenarioControls.style.setProperty("--controls-hidden-distance", hiddenDistance + "px");
-      scenarioControls.classList.toggle(
-        "is-stuck",
-        sentinelBottom <= navigationBottom - hiddenDistance
-      );
+      scenarioControls.classList.toggle("is-stuck", sentinelBottom <= navigationBottom);
       stickyUpdateScheduled = false;
     }
 
@@ -1403,7 +1376,6 @@
     }, 1400);
 
     render();
-    updateStickyControls();
   </script>
 </body>
 </html>
