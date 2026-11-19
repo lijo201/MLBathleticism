@@ -957,10 +957,12 @@
     }
 
     @keyframes intro-logo-appear {
-      0% { opacity: 0; transform: scale(.94); }
-      24%, 38% { opacity: 1; transform: scale(1); }
-      43% { opacity: 1; transform: scale(1.025, .97); }
-      50%, 100% { opacity: 1; transform: scale(1); }
+      0% { opacity: 0; transform: translateY(0) scale(.94); }
+      24%, 45% { opacity: 1; transform: translateY(0) scale(1); }
+      /* Contact occurs at about 1.12 seconds. */
+      48% { opacity: 1; transform: translateY(6px) scale(1.025, .965); animation-timing-function: ease-out; }
+      57% { opacity: 1; transform: translateY(-2px) scale(.995, 1.012); }
+      66%, 100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     /* Horizontal travel continues through the peak of the bounce. */
