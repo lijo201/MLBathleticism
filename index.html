@@ -894,6 +894,29 @@
       font-weight: 700;
     }
 
+  
+    /* Rounded highlight for the selected table row. */
+    .comparison table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .comparison tr.active {
+      background: transparent;
+    }
+
+    .comparison tr.active td {
+      background: #fbecef;
+    }
+
+    .comparison tr.active td:first-child {
+      border-radius: 12px 0 0 12px;
+    }
+
+    .comparison tr.active td:last-child {
+      border-radius: 0 12px 12px 0;
+    }
+
   </style>
 </head>
 
