@@ -581,12 +581,14 @@
     .hero .intro { color: rgba(255,255,255,.92); max-width: 660px; font-size: clamp(16px, 1.45vw, 19px); line-height: 1.5; }
     .hero-period { margin: 15px 0 0; color: rgba(255,255,255,.78); font-size: 13px; letter-spacing: .02em; }
     .scroll-cue { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 25px; color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: .14em; }
-    .scroll-cue .arrow-stem { transform-box: fill-box; transform-origin: center bottom; animation: stem-length 1.8s ease-in-out infinite; }
+    .scroll-cue .arrow-stem { transform-box: fill-box; transform-origin: center top; animation: stem-length 1.8s ease-in-out infinite; }
+    .scroll-cue .arrow-head { animation: arrow-extend 1.8s ease-in-out infinite; }
     .scroll-cue:focus-visible { outline: 2px solid white; outline-offset: 6px; border-radius: 4px; }
     #scenario-controls { scroll-margin-top: 80px; }
     @keyframes stem-length { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
+    @keyframes arrow-extend { 0%, 100% { transform: translateY(-7px); } 50% { transform: translateY(0); } }
     @media (max-width: 850px) { .wrap { padding-top: 0; } .hero { align-items: center; padding-bottom: 52px; } }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .scroll-cue .arrow-stem { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .scroll-cue .arrow-stem, .scroll-cue .arrow-head { animation: none; } }
 
   
     /* Outfield positioning illustration */
@@ -1244,7 +1246,7 @@
           <span>SCROLL TO EXPLORE</span>
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
             <path class="arrow-stem" d="M12 4v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M6 12l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="arrow-head" d="M6 12l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
       </div>
