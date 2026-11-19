@@ -956,6 +956,17 @@
       animation: intro-ball-spin .6s .2625s linear infinite;
     }
 
+    /* Run the intro only while this page is visible. */
+    .intro-screen .intro-logo,
+    .intro-screen .intro-ball-flight,
+    .intro-screen .intro-ball,
+    .intro-screen .intro-ball-spin { animation-play-state: paused; }
+
+    .intro-screen.is-playing .intro-logo,
+    .intro-screen.is-playing .intro-ball-flight,
+    .intro-screen.is-playing .intro-ball,
+    .intro-screen.is-playing .intro-ball-spin { animation-play-state: running; }
+
     @keyframes intro-logo-appear {
       0% { opacity: 0; transform: translateY(0) scale(.94); }
       18%, 34.58% { opacity: 1; transform: translateY(0) scale(1); }
@@ -1665,12 +1676,52 @@
       interpretToggle.closest(".interpret-panel").classList.toggle("is-open", !isOpen);
     });
 
-    // Display the dashboard when the page first loads
-    // Fade the intro screen away shortly after the dashboard is ready.
+    // Start only when the logo is ready and this tab is visible.
     const introScreen = document.getElementById("intro-screen");
-    window.setTimeout(() => {
-      introScreen.classList.add("is-hidden");
-    }, 1575);
+    const introLogo = introScreen.querySelector(".intro-logo");
+    let introRemaining = 1575;
+    let introStartedAt = 0;
+    let introTimer = null;
+    let logoReady = false;
+    let introFinished = false;
+
+    function updateIntroPlayback() {
+      if (introFinished || !logoReady) return;
+      if (document.hidden) {
+        introScreen.classList.remove("is-playing");
+        if (introTimer !== null) {
+          clearTimeout(introTimer);
+          introTimer = null;
+          introRemaining = Math.max(0, introRemaining - (performance.now() - introStartedAt));
+        }
+      } else if (introTimer === null) {
+        introScreen.classList.add("is-playing");
+        introStartedAt = performance.now();
+        introTimer = setTimeout(() => {
+          introFinished = true;
+          introTimer = null;
+          introScreen.classList.add("is-hidden");
+        }, introRemaining);
+      }
+    }
+
+    function onIntroLogoReady() {
+      if (!introLogo.naturalWidth || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        introFinished = true;
+        introScreen.classList.add("is-hidden");
+        return;
+      }
+      logoReady = true;
+      updateIntroPlayback();
+    }
+
+    document.addEventListener("visibilitychange", updateIntroPlayback);
+    if (introLogo.complete) {
+      onIntroLogoReady();
+    } else {
+      introLogo.addEventListener("load", onIntroLogoReady, { once: true });
+      introLogo.addEventListener("error", onIntroLogoReady, { once: true });
+    }
 
     render();
   </script>
