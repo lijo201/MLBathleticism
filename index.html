@@ -757,6 +757,18 @@
       color: #777780;
     }
 
+  
+    /* Separation between controls and the field */
+    .field-divider {
+      height: 1px;
+      background: #dedee3;
+      margin: 44px 0;
+    }
+    .field-card { margin-top: 0; }
+    @media (max-width: 600px) {
+      .field-divider { margin: 30px 0; }
+    }
+
   </style>
 </head>
 
@@ -851,6 +863,8 @@
       </div>
 
     </section>
+
+    <div class="field-divider" aria-hidden="true"></div>
 
     <!-- Positioning diagram: circles are drawn to the same scale as the bases -->
     <section class="card field-card" aria-labelledby="field-title">
