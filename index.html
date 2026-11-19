@@ -1086,6 +1086,10 @@
       line-height: 1.4;
     }
 
+    /* Give the field heading its own space above the card */
+    .field-heading { margin: 0 0 24px; }
+    .field-card .field-visual { margin-top: 0; }
+
   </style>
 </head>
 
@@ -1197,16 +1201,14 @@
     <div class="field-divider" aria-hidden="true"></div>
 
     <!-- Positioning diagram: circles are drawn to the same scale as the bases -->
-    <section class="card field-card" aria-labelledby="field-title">
-      <div class="field-heading">
-        <div>
-          
-          <h2 id="field-title">Outfielder Positioning</h2>
-          <p class="field-description">See how the selected rule places the three allowed outfield zones.</p>
-        </div>
-        
+    <div class="field-heading">
+      <div>
+        <h2 id="field-title">Outfielder Positioning</h2>
+        <p class="field-description">See how the selected rule places the three allowed outfield zones.</p>
       </div>
+    </div>
 
+    <section class="card field-card" aria-labelledby="field-title">
       <div class="field-visual">
         <svg id="field-diagram" viewBox="0 0 720 510" role="img" aria-labelledby="field-svg-title field-svg-desc">
           <title id="field-svg-title">Outfield positioning circles</title>
