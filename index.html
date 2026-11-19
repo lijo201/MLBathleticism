@@ -462,6 +462,28 @@
       }
     }
   
+    /* Center the brand and introduction */
+    .nav {
+      justify-content: center;
+    }
+
+    .hero {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .intro {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 850px) {
+      .hero {
+        align-items: center;
+      }
+    }
+
     /* Intro screen */
     .intro-screen {
       position: fixed;
@@ -531,7 +553,7 @@
 
     <section class="hero">
       <div>
-        <div class="eyebrow">Interactive scorecard</div>
+        
 
         <h1>
           See the game<br />
